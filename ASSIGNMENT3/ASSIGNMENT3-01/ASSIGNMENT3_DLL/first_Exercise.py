@@ -268,3 +268,58 @@ class DoublyLinkedList():
             previous_node.next = next_node
             next_node.prev = previous_node
         self._size -=1
+
+    def remove_by_value(self, value):
+        if self._size == 0:
+            raise Exception("Cannot delete node from empty list")
+
+        current_node = self._head
+        previous_node = None
+        found = False
+
+        while current_node:
+            if current_node.data == value:
+                found = True
+                break
+            previous_node = current_node
+            current_node = current_node.next
+
+        if not found:
+            raise Exception("Cannot find the given item in the list")
+
+        # Removing the node
+        if previous_node is None:  # removing head
+            self._head = current_node.next
+            if self._head is None:  # list became empty
+                self._tail = None
+        else:
+            previous_node.next = current_node.next
+            if current_node == self._tail:  # removing tail
+                self._tail = previous_node
+
+        self._size -= 1
+
+    def remove_by_index(self, index):
+        if self._size == 0:
+            raise Exception("Cannot delete node from empty list")
+        if index < 0 or index >= self._size:
+            raise Exception("Index out of bound")
+
+        current_node = self._head
+        previous_node = None
+
+        for _ in range(index):
+            previous_node = current_node
+            current_node = current_node.next
+
+        # Remove the node
+        if previous_node is None:  # removing head
+            self._head = current_node.next
+            if self._head is None:  # list became empty
+                self._tail = None
+        else:
+            previous_node.next = current_node.next
+            if current_node == self._tail:  # removing tail
+                self._tail = previous_node
+
+        self._size -= 1
